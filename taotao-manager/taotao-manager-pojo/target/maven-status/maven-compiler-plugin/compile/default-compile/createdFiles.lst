@@ -1,0 +1,11 @@
+demo\manager\pojo\TbOrderItem.class
+demo\manager\pojo\TbUser.class
+demo\manager\pojo\TbItemCat.class
+demo\manager\pojo\TbItemParamItem.class
+demo\manager\pojo\TbContent.class
+demo\manager\pojo\TbItemDesc.class
+demo\manager\pojo\TbContentCategory.class
+demo\manager\pojo\TbOrder.class
+demo\manager\pojo\TbOrderShipping.class
+demo\manager\pojo\TbItem.class
+demo\manager\pojo\TbItemParam.class
