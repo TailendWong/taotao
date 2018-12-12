@@ -27,11 +27,11 @@ public class ManagerController {
     }
     @RequestMapping("/item/list")
     @ResponseBody
-    public EasyUIPageDatasBean itemList(@RequestParam(required =false,defaultValue = "1")String pageNumber,
-                           @RequestParam(required =false,defaultValue = "20")String pageSize){
+    public EasyUIPageDatasBean itemList(@RequestParam(required =false,defaultValue = "1")String page,
+                           @RequestParam(required =false,defaultValue = "20")String rows){
 
-        System.out.println("pageNumber = [" + pageNumber + "], pageSize = [" + pageSize + "]");
-        EasyUIPageDatasBean<TbItem> items = goodsItemService.showPageTbitems(Integer.parseInt(pageNumber), Integer.parseInt(pageSize));
+        System.out.println("page = [" + page + "], rows = [" + rows + "]");
+        EasyUIPageDatasBean<TbItem> items = goodsItemService.showPageTbitems(Integer.parseInt(page), Integer.parseInt(rows));
 //        String jsonString = JSON.toJSONString(items);
 //        return jsonString; 这是错误的，会受到视图解析器的影响
 //        response.getWriter().write(jsonString); 这是正确的
