@@ -11,6 +11,7 @@
     <modules>
         <module>taotao-common</module>
         <module>taotao-manager</module>
+        <module>taotao-portal-web</module>
     </modules>
     <properties>
         <junit.version>4.12</junit.version>
@@ -42,11 +43,16 @@
         <freemarker.version>2.3.28</freemarker.version>
         <quartz.version>2.2.2</quartz.version>
         <fastjson.version>1.2.47</fastjson.version>
+        <fdfs.version>1.25</fdfs.version>
     </properties>
     <dependencyManagement>
 
         <dependencies>
-
+            <dependency>
+                <groupId>fastdfs_client</groupId>
+                <artifactId>fastdfs_client</artifactId>
+                <version>${fdfs.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
             <dependency>
                 <groupId>com.alibaba</groupId>

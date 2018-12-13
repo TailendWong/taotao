@@ -17,6 +17,7 @@
         <module>taotao-manager-web</module>
         <module>taotao-manager-dao</module>
         <module>taotao-manager-pojo</module>
+        <module>taotao-itemcat-service</module>
     </modules>
 
     <dependencies>

@@ -12,6 +12,10 @@
     <artifactId>taotao-common</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>fastdfs_client</groupId>
+            <artifactId>fastdfs_client</artifactId>
+        </dependency>
         <!-- 时间操作组件 -->
         <dependency>
             <groupId>joda-time</groupId>

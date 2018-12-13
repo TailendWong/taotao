@@ -12,6 +12,9 @@
           http://www.springframework.org/schema/mvc/spring-mvc.xsd
           http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <context:component-scan base-package="demo.manager.controller"></context:component-scan>
+
+    <context:property-placeholder location="classpath:fastdfs.properties"></context:property-placeholder>
+
     <bean id="jsonconverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
 
     <mvc:annotation-driven>
@@ -57,6 +60,7 @@
     <!--<dubbo:service interface="com.itszt.order.OrderService" ref="orderServiceImpl" protocol="dubbo" />-->
     <!--请求服务-->
     <dubbo:reference id="goodsItemService" interface="demo.manager.service.inter.GoodsItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>
+    <dubbo:reference id="catService" interface="demo.manager.service.inter.CatService" protocol="dubbo" timeout="5000" ></dubbo:reference>
 
 
 </beans>

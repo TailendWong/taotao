@@ -91,7 +91,7 @@
 
                 <configuration>
                     <path>/</path>
-                    <port>8089</port>
+                    <port>8081</port>
                     <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>

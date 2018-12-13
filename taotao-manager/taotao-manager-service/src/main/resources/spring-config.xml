@@ -26,8 +26,6 @@
     <dubbo:protocol name="dubbo" port="28082" />
     <!--使用 dubbo 协议实现定义好的 api.PermissionService 接口-->
     <dubbo:service interface="demo.manager.service.inter.GoodsItemService" ref="goodsServiceImpl" protocol="dubbo" />
-    <!--请求服务-->
-    <!--<dubbo:reference  id="moneyService1" interface="com.itszt.money.MoneyService" protocol="dubbo" timeout="3000" ></dubbo:reference>-->
 
 
 </beans>

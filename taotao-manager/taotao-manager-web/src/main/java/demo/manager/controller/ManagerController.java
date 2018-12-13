@@ -3,21 +3,35 @@ package demo.manager.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import demo.common.EasyUIPageDatasBean;
+import demo.common.EasyUIPicUploadBean;
+import demo.common.EasyUITreeBean;
+import demo.common.FastDFSClientUtil;
 import demo.manager.pojo.TbItem;
+import demo.manager.service.inter.CatService;
 import demo.manager.service.inter.GoodsItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by 黄敏雅 on 2018/12/10 0010.
  */
 @Controller
 public class ManagerController {
+    @Value("${FDFS_URL}")
+    private String FDFS_URL;
+    @Resource
+    private CatService catService;
     @Resource
     private GoodsItemService goodsItemService;
     @RequestMapping("/{path}")
@@ -39,5 +53,41 @@ public class ManagerController {
         return items;
     }
 
+    @RequestMapping("/pic/upload")
+    @ResponseBody
+    public EasyUIPicUploadBean uploadPics(MultipartFile uploadFile){
+        EasyUIPicUploadBean easyUIPicUploadBean=new EasyUIPicUploadBean();
+        try {
+        String originalFilename = uploadFile.getOriginalFilename();
+        String expName = "";
+        if (originalFilename.contains(".")) {
+            expName = originalFilename.split("\\.")[1];
+        }
+        FastDFSClientUtil fastDFSClientUtil = new FastDFSClientUtil();
+        byte[] picDatas=uploadFile.getBytes();
+        String fdfsPath = FDFS_URL+fastDFSClientUtil.uploadFile(picDatas, expName);
+
+        easyUIPicUploadBean.setError(0);
+        easyUIPicUploadBean.setMessage("上传成功！");
+        easyUIPicUploadBean.setUrl(fdfsPath);
+        } catch (Exception e) {
+            easyUIPicUploadBean.setError(1);
+            easyUIPicUploadBean.setMessage("上传失败，请稍后重试！！");
+            e.printStackTrace();
+        }
+        return easyUIPicUploadBean;
+
+    }
+
+    @RequestMapping("/item/cat/list")
+    @ResponseBody
+    public List<EasyUITreeBean> loadItemCatTree(HttpServletRequest httpServletRequest,
+                                                @RequestParam(required = false,defaultValue = "0") String id){
+        Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            System.out.println("parameterNames = " + parameterNames.nextElement());
+        }
+        return catService.showCatItems(id);
+    }
 
 }
