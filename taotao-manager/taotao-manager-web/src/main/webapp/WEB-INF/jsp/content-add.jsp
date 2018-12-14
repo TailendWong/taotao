@@ -67,10 +67,13 @@
 				contentAddEditor.sync();
 				
 				$.post("/content/save",$("#contentAddForm").serialize(), function(data){
+				    console.log($("#contentAddForm").serialize());
 					if(data.status == 200){
 						$.messager.alert('提示','新增内容成功!');
     					$("#contentList").datagrid("reload");
     					TT.closeCurrentWindow();
+					}else {
+                        $.messager.alert('提示','新增失败请重试!');
 					}
 				});
 			},

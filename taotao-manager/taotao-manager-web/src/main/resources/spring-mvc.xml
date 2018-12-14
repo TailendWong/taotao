@@ -61,6 +61,7 @@
     <!--请求服务-->
     <dubbo:reference id="goodsItemService" interface="demo.manager.service.inter.GoodsItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>
     <dubbo:reference id="catService" interface="demo.manager.service.inter.CatService" protocol="dubbo" timeout="5000" ></dubbo:reference>
+    <dubbo:reference id="contentService" interface="demo.manager.service.inter.ContentService" protocol="dubbo" timeout="5000" ></dubbo:reference>
 
 
 </beans>

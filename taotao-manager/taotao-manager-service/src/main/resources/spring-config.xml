@@ -26,6 +26,7 @@
     <dubbo:protocol name="dubbo" port="28082" />
     <!--使用 dubbo 协议实现定义好的 api.PermissionService 接口-->
     <dubbo:service interface="demo.manager.service.inter.GoodsItemService" ref="goodsServiceImpl" protocol="dubbo" />
+    <dubbo:service interface="demo.manager.service.inter.ContentService" ref="contentServiceImpl" protocol="dubbo" />
 
 
 </beans>
