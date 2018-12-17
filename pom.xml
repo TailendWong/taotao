@@ -39,7 +39,7 @@
         <dubbo.version>2.5.6</dubbo.version>
         <zookeeper.version>3.4.9</zookeeper.version>
         <zkclient.version>0.1</zkclient.version>
-
+        <spring-redis.version>1.8.9.RELEASE</spring-redis.version>
         <freemarker.version>2.3.28</freemarker.version>
         <quartz.version>2.2.2</quartz.version>
         <fastjson.version>1.2.47</fastjson.version>
@@ -185,6 +185,13 @@
                 <artifactId>spring-context-support</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring-redis.version}</version>
+            </dependency>
+
             <!-- JSP相关 -->
             <dependency>
                 <groupId>jstl</groupId>
