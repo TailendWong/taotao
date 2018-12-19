@@ -1,36 +1,39 @@
 package demo.manager.pojo;
 
+import org.apache.solr.client.solrj.beans.Field;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class TbItem implements Serializable{
-    private Long id;
-
+    @Field
+    private String id;
+    @Field
     private String title;
-
+    @Field("sell_point")
     private String sellPoint;
-
+    @Field
     private Long price;
-
+    @Field
     private Integer num;
-
+    @Field
     private String barcode;
-
+    @Field
     private String image;
-
+    @Field
     private Long cid;
+    @Field
+    private Integer status;
+    @Field
+    private String created;
+    @Field
+    private String updated;
 
-    private Byte status;
-
-    private Date created;
-
-    private Date updated;
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -90,27 +93,27 @@ public class TbItem implements Serializable{
         this.cid = cid;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public String getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(String updated) {
         this.updated = updated;
     }
 }

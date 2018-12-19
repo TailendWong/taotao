@@ -11,5 +11,10 @@
 
     <artifactId>taotao-manager-pojo</artifactId>
     <packaging>jar</packaging>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+        </dependency>
+    </dependencies>
 </project>
