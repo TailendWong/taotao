@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import demo.common.EasyUIPageDatasBean;
 import demo.manager.dao.GoodsItemDao;
 import demo.manager.pojo.TbItem;
+import demo.manager.pojo.TbItemDesc;
 import demo.manager.service.inter.GoodsItemService;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +31,16 @@ public class GoodsServiceImpl implements GoodsItemService {
         easyUIPageDatasBean.setTotal(pageInfo.getTotal());
         return easyUIPageDatasBean;
     }
+
+    @Override
+    public TbItem getItemDetail(long id) {
+        return goodsItemDao.queryItemDetail(id);
+    }
+
+    @Override
+    public TbItemDesc getItemDesc(long id) {
+        return goodsItemDao.queryItemDesc(id);
+    }
+
+
 }

@@ -13,6 +13,7 @@
         <module>taotao-manager</module>
         <module>taotao-portal-web</module>
         <module>taotao-search</module>
+        <module>taotao-detail</module>
     </modules>
     <properties>
         <junit.version>4.12</junit.version>
