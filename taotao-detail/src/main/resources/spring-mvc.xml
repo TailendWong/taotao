@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <context:component-scan base-package="demo.detail.controller"></context:component-scan>
+
+    <context:property-placeholder location="classpath:fastdfs.properties"></context:property-placeholder>
+    <bean id="jsonconverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <ref bean="jsonconverter"></ref>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+    <mvc:resources mapping="/js/**/" location="/js/"></mvc:resources>
+    <mvc:resources mapping="/css/**/" location="/css/"></mvc:resources>
+
+
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="prefix" value="/WEB-INF/jsp/"></property>-->
+        <!--<property name="suffix" value=".jsp"></property>-->
+    <!--</bean>-->
+
+    <!--配置一个freemarker 的config-->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"></property>
+    </bean>
+    <bean class="demo.common.FreemarkerCacheUtil">
+        <property name="configuration" ref="freeMarkerConfigurer"></property>
+        <property name="cacheFTLPath" value="D:\taotaoFtls"></property>
+    </bean>
+
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<mvc:exclude-mapping  path="/index/login.html"/>-->
+
+             <!--<bean class="com.itszt.elec.controller.interceptor.CheckLoginState"></bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
+
+
+
+    <!--定义了提供方应用信息，用于计算依赖关系；在 dubbo-admin 或 dubbo-monitor 会显示这个名字，方便辨识-->
+    <dubbo:application name="taotao-detail" owner="sj" organization="itszt"/>
+    <!--使用 zookeeper 注册中心暴露服务，注意要先开启 zookeeper-->
+    <dubbo:registry address="zookeeper://192.168.3.213:2181"/>
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <!--<dubbo:protocol name="dubbo" port="28088" />-->
+    <!--使用 dubbo 协议实现定义好的 api.PermissionService 接口-->
+    <!--<dubbo:service interface="com.itszt.order.OrderService" ref="orderServiceImpl" protocol="dubbo" />-->
+    <!--请求服务-->
+    <dubbo:reference  id="goodsItemService" interface="demo.manager.service.inter.GoodsItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>
+    <!--<dubbo:reference  id="catService" interface="com.itszt.taotao.manager.service.inter.CatService" protocol="dubbo" timeout="5000" ></dubbo:reference>-->
+    <!--<dubbo:reference  id="searchItemService" interface="com.itszt.taotao.search.inter.SearchItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>-->
+
+
+</beans>

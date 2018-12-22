@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          ">
+
+    <!-- 一个poolConfig的bean 封装redis连接池的各项配置-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxActive}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+    <!--  一个sentinelConfiguration的bean，封装关于哨兵的配置  -->
+    <bean id="sentinelConfiguration"
+          class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+        <!-- 配置我们当前的master名字 -->
+        <property name="master">
+            <bean class="org.springframework.data.redis.connection.RedisNode">
+                <property name="name" value="${redis.sentinel.master}"></property>
+            </bean>
+        </property>
+        <!-- 配置哨兵们 -->
+        <property name="sentinels">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="${redis.sentinel1.host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis.sentinel1.port}"></constructor-arg>
+                </bean>
+
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="${redis.sentinel2.host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis.sentinel2.port}"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="${redis.sentinel3.host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis.sentinel3.port}"></constructor-arg>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 生成redis连接池 -->
+    <bean id="jedisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+
+        <property name="usePool" value="true"></property>
+        <property name="timeout" value="10000"/>
+        <constructor-arg index="0" ref="sentinelConfiguration"/>
+        <constructor-arg index="1" ref="poolConfig"/>
+    </bean>
+
+
+    <!-- 生成一个java程序中可以使用的redis对象 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+    <!--<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"></bean>-->
+    <!--注册一个缓存管理者-->
+    <bean class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg name="cacheNames" value="itsztElec"></constructor-arg>
+        <constructor-arg name="cacheNullValues" value="false"></constructor-arg>
+        <constructor-arg name="redisOperations" ref="redisTemplate"></constructor-arg>
+    </bean>
+
+
+</beans>
