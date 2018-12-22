@@ -14,6 +14,7 @@
         <module>taotao-portal-web</module>
         <module>taotao-search</module>
         <module>taotao-detail</module>
+        <module>taotao-shopcar</module>
     </modules>
     <properties>
         <junit.version>4.12</junit.version>
@@ -46,10 +47,16 @@
         <quartz.version>2.2.2</quartz.version>
         <fastjson.version>1.2.47</fastjson.version>
         <fdfs.version>1.25</fdfs.version>
+        <rocketmq-client.version>4.2.0</rocketmq-client.version>
     </properties>
     <dependencyManagement>
 
         <dependencies>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq-client.version}</version>
+            </dependency>
             <dependency>
                 <groupId>fastdfs_client</groupId>
                 <artifactId>fastdfs_client</artifactId>
