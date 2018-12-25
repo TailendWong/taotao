@@ -15,6 +15,7 @@
         <module>taotao-search</module>
         <module>taotao-detail</module>
         <module>taotao-shopcar</module>
+        <module>taotao-order</module>
     </modules>
     <properties>
         <junit.version>4.12</junit.version>
