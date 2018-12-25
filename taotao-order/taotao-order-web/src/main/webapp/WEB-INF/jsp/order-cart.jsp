@@ -28,7 +28,7 @@
     <div id="logo"><a href="/"><img src="/images/taotao-logo.gif" alt="淘淘商城"></a></div>
 </div>
 
-<form id="orderForm" class="hide" action="/order/create.html" method="post">
+<form id="orderForm" class="hide" action="http://taotao.3w.dkys.org/payOrder.html" method="post">
 		<input type="hidden" name="paymentType" value="1"/>
 		<c:forEach items="${cartList }" var="cart" varStatus="status">
 			<%--<c:set var="totalPrice"  value="${ totalPrice + (cart.price * cart.num)}"/>--%>
