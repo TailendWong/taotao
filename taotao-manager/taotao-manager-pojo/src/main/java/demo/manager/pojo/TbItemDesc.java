@@ -6,9 +6,9 @@ import java.util.Date;
 public class TbItemDesc implements Serializable{
     private Long itemId;
 
-    private Date created;
+    private String created;
 
-    private Date updated;
+    private String updated;
 
     private String itemDesc;
 
@@ -20,19 +20,19 @@ public class TbItemDesc implements Serializable{
         this.itemId = itemId;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public String getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(String updated) {
         this.updated = updated;
     }
 

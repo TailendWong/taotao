@@ -7,11 +7,13 @@ import demo.common.EasyUIPicUploadBean;
 import demo.common.EasyUITreeBean;
 import demo.common.FastDFSClientUtil;
 import demo.manager.pojo.TbItem;
+import demo.manager.pojo.TbItemDesc;
 import demo.manager.service.inter.CatService;
 import demo.manager.service.inter.GoodsItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -89,5 +93,19 @@ public class ManagerController {
         }
         return catService.showCatItems(id);
     }
+    @RequestMapping("/item/save")
+    public void saveGood(TbItem tbItem, TbItemDesc itemDesc, HttpServletResponse response)  {
+        try {
+            goodsItemService.addItem(tbItem,itemDesc);
+            response.getWriter().write("{\"status\":200}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                response.getWriter().write("{\"status\":0}");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
 
+    }
 }

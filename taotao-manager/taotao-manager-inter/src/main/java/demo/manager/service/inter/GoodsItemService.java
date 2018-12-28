@@ -11,5 +11,5 @@ public interface GoodsItemService {
     public EasyUIPageDatasBean<TbItem> showPageTbitems(int pageNum, int pageSize);
     public TbItem getItemDetail(long id);
     public TbItemDesc getItemDesc(long id);
-
+    public void addItem(TbItem tbItem,TbItemDesc tbItemDesc);
 }

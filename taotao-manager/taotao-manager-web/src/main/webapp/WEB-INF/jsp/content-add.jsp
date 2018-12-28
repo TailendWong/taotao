@@ -69,10 +69,14 @@
 				$.post("/content/save",$("#contentAddForm").serialize(), function(data){
 				    console.log($("#contentAddForm").serialize());
 					if(data.status == 200){
+                        console.log(data.status);
+                        console.log(data);
 						$.messager.alert('提示','新增内容成功!');
     					$("#contentList").datagrid("reload");
     					TT.closeCurrentWindow();
 					}else {
+                        console.log(data.status);
+                        console.log(data);
                         $.messager.alert('提示','新增失败请重试!');
 					}
 				});

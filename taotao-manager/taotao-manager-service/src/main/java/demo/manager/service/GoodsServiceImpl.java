@@ -7,9 +7,16 @@ import demo.manager.dao.GoodsItemDao;
 import demo.manager.pojo.TbItem;
 import demo.manager.pojo.TbItemDesc;
 import demo.manager.service.inter.GoodsItemService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,4 +50,15 @@ public class GoodsServiceImpl implements GoodsItemService {
     }
 
 
+    @Transactional(value = "id_txManager",propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,readOnly = false,rollbackFor = Exception.class)
+    public void addItem(TbItem tbItem,TbItemDesc tbItemDesc) {
+            String formatTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+            tbItem.setCreated(formatTime);
+            tbItem.setUpdated(formatTime);
+            tbItemDesc.setCreated(formatTime);
+            tbItemDesc.setUpdated(formatTime);
+            goodsItemDao.insertItem(tbItem);
+            tbItemDesc.setItemId(Long.parseLong(tbItem.getId()));
+            goodsItemDao.insertItemDesc(tbItemDesc);
+    }
 }
