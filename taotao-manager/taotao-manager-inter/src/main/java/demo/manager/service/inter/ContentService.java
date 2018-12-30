@@ -18,4 +18,7 @@ public interface ContentService {
     public EasyUIResult insertContent(TbContent tbContent);
 
     public List<TbContent> showCatContents(String pageNum,String pageSize,String categoryId);
+
+
+
 }

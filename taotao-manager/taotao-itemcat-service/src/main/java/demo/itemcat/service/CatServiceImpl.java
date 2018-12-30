@@ -1,7 +1,9 @@
 package demo.itemcat.service;
 
+import demo.common.AjaxResult;
 import demo.common.EasyUITreeBean;
 import demo.manager.dao.CatDao;
+import demo.manager.pojo.TbContentCategory;
 import demo.manager.pojo.TbItemCat;
 import demo.manager.service.inter.CatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,31 @@ public class CatServiceImpl implements CatService{
             }
         }
         return easyUITreeBeans;
+    }
+
+    @Override
+    public AjaxResult addContentCat(TbContentCategory cat) {
+        AjaxResult ajaxResult = new AjaxResult();
+        System.out.println("入库。。。");
+        try {
+            catDao.insertCat(cat);
+            System.out.println("id==="+cat.getId());
+            ajaxResult.setData(cat);
+            ajaxResult.setSuccess(true);
+            ajaxResult.setStatus(AjaxResult.OK);
+        } catch (Exception e) {
+            ajaxResult.setStatus(AjaxResult.Fail);
+        }
+        return ajaxResult;
+    }
+
+    @Override
+    public void updateCat(Long id, String name) {
+        catDao.updateCat(id,name);
+    }
+
+    @Override
+    public void deleteCat(Long id) {
+        catDao.deleteCat(id);
     }
 }

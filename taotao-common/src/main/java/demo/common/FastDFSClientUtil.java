@@ -105,14 +105,14 @@ public class FastDFSClientUtil {
 		 String conf_filename = "fdfs_client.conf";
 		//本地文件，要上传的文件
 //		 String local_filename = "/Users/shijian/Downloads/pics/def1bf6b83788d05df8fc8f48f5f1a4a.jpg";
-		File file = new File("C:\\Users\\pics");
+		File file = new File("C:\\Users\\fil");
 		File[] files = file.listFiles();
 		StringBuffer sb=new StringBuffer();
 		for (File file1 : files) {
 			String local_filename = file1.getAbsolutePath();
 			System.out.println("local_filename = " + local_filename);
 			FastDFSClientUtil fastDFSClientUtil=new FastDFSClientUtil();
-			String path = fastDFSClientUtil.uploadFile(local_filename, "jpg");
+			String path = fastDFSClientUtil.uploadFile(local_filename, "txt");
 			sb.append(path);
 			sb.append(",");
 
