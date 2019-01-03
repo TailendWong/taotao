@@ -40,14 +40,14 @@ public class ShopCarController {
     @RequestMapping("/cart/delete/{tbItemid}")
     public String deleteCartItem(@PathVariable("tbItemid") Long tbitemid){
         System.out.println("tbitemid = [" + tbitemid + "]");
-        shopcarService.delShopCarItem(tbitemid);
+        shopcarService.delShopCarItem("dahuang1",tbitemid);
             return "forward:/cart/cart.html";
     }
 
     @RequestMapping("/cart/update/num/{itemId}/{num}")
     public String updateCartItem(@PathVariable("num") Integer num,@PathVariable("itemId") Long itemId ) {
         System.out.println("num = [" + num + "], itemId = [" + itemId + "]");
-        shopcarService.editShopcarItemNum(itemId,num);
+        shopcarService.editShopcarItemNum("dahuang1",itemId,num);
         return "forward:/cart/cart.html";
     }
 }

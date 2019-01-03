@@ -1,5 +1,6 @@
 package demo.manager.service;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import demo.common.EasyUIPageDatasBean;
@@ -7,9 +8,13 @@ import demo.manager.dao.GoodsItemDao;
 import demo.manager.pojo.TbItem;
 import demo.manager.pojo.TbItemDesc;
 import demo.manager.service.inter.GoodsItemService;
-import org.apache.commons.lang3.StringUtils;
+import demo.manager.service.inter.MQBean;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +29,10 @@ import java.util.List;
  */
 @Service
 public class GoodsServiceImpl implements GoodsItemService {
+    @Resource
+    private DefaultMQProducer defaultMQProducer;
+    @Value("${topic}")
+    private String topic;
     @Resource
     private GoodsItemDao goodsItemDao;
     @Override
@@ -50,15 +59,27 @@ public class GoodsServiceImpl implements GoodsItemService {
     }
 
 
-    @Transactional(value = "id_txManager",propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,readOnly = false,rollbackFor = Exception.class)
-    public void addItem(TbItem tbItem,TbItemDesc tbItemDesc) {
+   @Override
+    public boolean addItem(TbItem tbItem, TbItemDesc tbItemDesc) {
             String formatTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
             tbItem.setCreated(formatTime);
             tbItem.setUpdated(formatTime);
             tbItemDesc.setCreated(formatTime);
             tbItemDesc.setUpdated(formatTime);
-            goodsItemDao.insertItem(tbItem);
-            tbItemDesc.setItemId(Long.parseLong(tbItem.getId()));
-            goodsItemDao.insertItemDesc(tbItemDesc);
+
+            MQBean mqBean=new MQBean();
+            mqBean.setAction(MQBean.MQAction.ADD);
+            mqBean.setGoodBean(tbItem);
+            mqBean.setTbItemDesc(tbItemDesc);
+            String json= JSON.toJSONString(mqBean);
+            Message message = new Message(topic,"","admin-"+System.currentTimeMillis(),json.getBytes());
+            SendResult result=null;
+        try {
+            result=defaultMQProducer.send(message);
+            return result.getSendStatus()== SendStatus.SEND_OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

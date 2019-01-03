@@ -14,7 +14,7 @@
     <context:component-scan base-package="demo.manager.service,demo.manager.dao"/>
 
     <!--引入配置文件-->
-    <context:property-placeholder location="classpath:db.properties,classpath:fastdfs.properties,classpath:redis.properties"></context:property-placeholder>
+    <context:property-placeholder location="classpath:db.properties,classpath:fastdfs.properties,classpath:redis.properties,classpath:rcmq.properties"></context:property-placeholder>
     <import resource="classpath:spring-mybatis-config.xml"></import>
     <import resource="classpath:spring-redis-config.xml"></import>
 
@@ -29,5 +29,39 @@
     <dubbo:service interface="demo.manager.service.inter.GoodsItemService" ref="goodsServiceImpl" protocol="dubbo" />
     <dubbo:service interface="demo.manager.service.inter.ContentService" ref="contentServiceImpl" protocol="dubbo" />
 
+    <!--配置一个freemarker 的config-->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"></property>
+    </bean>
+    <bean class="demo.common.FreemarkerCacheUtil">
+        <property name="configuration" ref="freeMarkerConfigurer"></property>
+        <property name="cacheFTLPath" value="D:\taotaoFtls"></property>
+    </bean>
+
+    <bean id="managerConsumer" class="demo.manager.consumer.ManagerConsumer"></bean>
+
+
+    <bean id="rocketmqProduct" class="org.apache.rocketmq.client.producer.DefaultMQProducer" init-method="start" destroy-method="shutdown">
+        <property name="producerGroup" value="ProducertaotaoShopcar"/>
+        <property name="namesrvAddr" value="192.168.3.213:9876"/>
+    </bean>
+
+    <bean id="rocketmqConsumer" class="org.apache.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start" destroy-method="shutdown">
+        <property name="consumerGroup" value="ConsumetaotaoManager"/>
+        <property name="namesrvAddr" value="192.168.3.213:9876"/>
+        <property name="messageListener" ref="managerConsumer"/>
+        <property name="pullBatchSize" value="1"></property>
+        <property name="consumeThreadMin" value="1"></property>
+        <property name="consumeThreadMax" value="1"></property>
+
+        <property name="subscription">
+            <map>
+                <entry key="managerTopic">
+                    <value>*</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
 </beans>

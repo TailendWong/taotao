@@ -3,6 +3,7 @@ package demo.shopcar.consumer;
 import com.alibaba.fastjson.JSON;
 import demo.shopcar.dao.ShopCarDao;
 import demo.shopcar.inter.MQBean;
+import demo.shopcar.inter.ShopCarBean;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -30,13 +31,16 @@ public class ShopcarConsumer  implements MessageListenerConcurrently {
         //处理消息
         try {
             MQBean mqBean = JSON.parseObject(new String(body), MQBean.class);
+            ShopCarBean shopCarBean = mqBean.getShopCarBean();
             switch (mqBean.getAction()){
                 case ADD:
-                    shopCarDao.addShopCarItem(mqBean.getShopCarBean());
+                    shopCarDao.addShopCarItem(shopCarBean);
                     break;
                 case DELETE:
+                    shopCarDao.delShopCarItem(shopCarBean.getTbItem());
                     break;
                 case MODIFY_NUM:
+                    shopCarDao.updateShopcarItemNum(shopCarBean.getTbItem(),shopCarBean.getNum());
                     break;
             }
         } catch (Exception e) {

@@ -78,5 +78,23 @@ public class FreemarkerCacheUtil {
         out.write(ftlContents);
         out.flush();
     }
+    public void genFtl(String ftlName,String cacheKey) throws Exception{
+        //加载模板
+        Template t1 = configuration.getConfiguration().getTemplate(ftlName);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        t1.process(datas.get(),new OutputStreamWriter(byteArrayOutputStream));
+        t1.setOutputEncoding("UTF-8");
+        String ftlContents = byteArrayOutputStream.toString();
+        //转储本地
+        File dir = new File(cacheFTLPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(dir,cacheKey+ftlName)));
+        bufferedWriter.write(ftlContents);
+        bufferedWriter.close();
+    }
+
+
 
 }

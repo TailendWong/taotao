@@ -62,8 +62,24 @@ public class ShopcarServiceImpl implements ShopcarService {
     }
 
     @Override
-    public void delShopCarItem(Long itemid) {
-        shopCarDao.delShopCarItem(getTbitemById(itemid));
+    public boolean delShopCarItem(String userid,Long itemid) {
+        MQBean mqBean = new MQBean();
+        mqBean.setAction(MQBean.MQAction.DELETE);
+        ShopCarBean shopCarBean = new ShopCarBean();
+        shopCarBean.setTbItem(getTbitemById(itemid));
+        shopCarBean.setUserid(userid);
+        mqBean.setShopCarBean(shopCarBean);
+        String json = JSON.toJSONString(mqBean);
+        Message message = new Message(topic,"",userid + "-" + System.currentTimeMillis(), json.getBytes());
+        SendResult result=null;
+        try {
+            result = defaultMQProducer.send(message);
+            return result.getSendStatus()==SendStatus.SEND_OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 
     @Override
@@ -73,8 +89,24 @@ public class ShopcarServiceImpl implements ShopcarService {
     }
 
     @Override
-    public void editShopcarItemNum(Long itemid, Integer num) {
-        shopCarDao.updateShopcarItemNum(getTbitemById(itemid),num);
+    public boolean editShopcarItemNum(String userid,Long itemid, Integer num) {
+        MQBean mqBean = new MQBean();
+        mqBean.setAction(MQBean.MQAction.MODIFY_NUM);
+        ShopCarBean shopCarBean = new ShopCarBean();
+        shopCarBean.setTbItem(getTbitemById(itemid));
+        shopCarBean.setUserid(userid);
+        shopCarBean.setNum(num);
+        mqBean.setShopCarBean(shopCarBean);
+        String json = JSON.toJSONString(mqBean);
+        Message message = new Message(topic,"",userid + "-" + System.currentTimeMillis(), json.getBytes());
+        SendResult result=null;
+        try {
+            result = defaultMQProducer.send(message);
+            return result.getSendStatus()==SendStatus.SEND_OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
