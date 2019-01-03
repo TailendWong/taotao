@@ -2,10 +2,7 @@ package demo.manager.dao;
 
 import demo.manager.pojo.TbItem;
 import demo.manager.pojo.TbItemDesc;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -30,4 +27,10 @@ public interface GoodsItemDao {
     public void insertItemDesc(TbItemDesc tbItemDesc);
     @Update("update tb_item set status=3 where id=#{id}")
     public void delGoodItems(String id);
+    @Delete("delete from tb_item where id=#{id}")
+    public boolean deleteItemById(String id);
+    @Update("update tb_item_desc set item_desc=#{itemDesc},updated=#{updated} where item_id=#{itemId}")
+    public boolean updateItemDesc(TbItemDesc tbItemDesc);
+    @Update("update tb_item set id=#{nid} where id=#{oid}")
+    public boolean updateItemId(@Param("oid") String oid,@Param("nid") String nid);
 }

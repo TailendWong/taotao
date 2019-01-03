@@ -11,9 +11,18 @@ import java.io.Serializable;
 public class MQBean implements Serializable{
     private TbItem goodBean;
     private TbItemDesc tbItemDesc;
+    private String ids;
     private MQAction action=MQBean.MQAction.ADD;
     public enum MQAction{
-        ADD,DELETE,MODIFY_NUM
+        ADD,DELETE,MODIFY
+    }
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
     }
 
     public TbItemDesc getTbItemDesc() {

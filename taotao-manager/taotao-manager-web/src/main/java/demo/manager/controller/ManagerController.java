@@ -123,10 +123,22 @@ public class ManagerController {
     }
 
     @RequestMapping("/rest/page/item-edit")
-    public String getItemDesc() {
+    public String itemEdit() {
         return "item-edit";
     }
 
+    @RequestMapping("/rest/item/update")
+    @ResponseBody
+    public AjaxResult itemUpdate(TbItem tbItem,String desc) {
+        AjaxResult ajaxResult = new AjaxResult();
+        System.out.println("id = [" + tbItem.getId() + "]");
+        boolean b =goodsItemService.updateItem(tbItem,desc,tbItem.getId());
+        if (b) {
+            ajaxResult.setSuccess(true);
+            ajaxResult.setStatus(AjaxResult.OK);
+        }
+        return ajaxResult;
+    }
 
 
 }

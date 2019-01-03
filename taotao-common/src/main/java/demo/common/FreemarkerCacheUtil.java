@@ -94,7 +94,19 @@ public class FreemarkerCacheUtil {
         bufferedWriter.write(ftlContents);
         bufferedWriter.close();
     }
-
-
+    public void delFtl(String ftlName,String cacheKey) throws Exception{
+        File dir = new File(cacheFTLPath);
+        if (!dir.exists()) {
+            return;
+        }
+        String targetName=cacheKey+ftlName;
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (targetName.equals(file.getName())) {
+                file.delete();
+                return;
+            }
+        }
+    }
 
 }

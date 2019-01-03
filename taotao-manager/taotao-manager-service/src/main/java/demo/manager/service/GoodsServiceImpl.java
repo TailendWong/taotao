@@ -85,16 +85,47 @@ public class GoodsServiceImpl implements GoodsItemService {
 
     @Override
     public boolean deleteGoodsItems(String ids) {
-        String[] strs = ids.split(",");
+
+        MQBean mqBean=new MQBean();
+        mqBean.setAction(MQBean.MQAction.DELETE);
+        mqBean.setIds(ids);
+        String json= JSON.toJSONString(mqBean);
+        Message message = new Message(topic,"","admin-"+System.currentTimeMillis(),json.getBytes());
+        SendResult result=null;
         try {
-            for (String str : strs) {
-                goodsItemDao.delGoodItems(str);
-            }
-            return true;
+            result=defaultMQProducer.send(message);
+            return result.getSendStatus()== SendStatus.SEND_OK;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
+    @Override
+    public boolean updateItem(TbItem tbItem, String desc, String id) {
+        TbItem itemDetail = getItemDetail(Long.parseLong(id));
+        String formatTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+        tbItem.setUpdated(formatTime);
+        tbItem.setCreated(itemDetail.getCreated());
+        TbItemDesc tbItemDesc = new TbItemDesc();
+        tbItemDesc.setItemId(Long.parseLong(id));
+        tbItemDesc.setItemDesc(desc);
+        tbItemDesc.setUpdated(formatTime);
+
+        MQBean mqBean=new MQBean();
+        mqBean.setAction(MQBean.MQAction.MODIFY);
+        mqBean.setIds(itemDetail.getId());
+        mqBean.setTbItemDesc(tbItemDesc);
+        mqBean.setGoodBean(tbItem);
+        String json= JSON.toJSONString(mqBean);
+        Message message = new Message(topic,"","admin-"+System.currentTimeMillis(),json.getBytes());
+        SendResult result=null;
+        try {
+            result=defaultMQProducer.send(message);
+            return result.getSendStatus()== SendStatus.SEND_OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

@@ -67,8 +67,23 @@ public class ManagerConsumer implements MessageListenerConcurrently {
                     freemarkerCacheUtil.genFtl("item.ftl",tbItemId);
                     break;
                 case DELETE:
+                    String ids = mqBean.getIds();
+                    String[] strs = ids.split(",");
+                    for (String str : strs) {
+                        goodsItemDao.delGoodItems(str);
+                        freemarkerCacheUtil.delFtl("item.ftl",str);
+                    }
                     break;
-                case MODIFY_NUM:
+                case MODIFY:
+                    TbItem goodBean = mqBean.getGoodBean();
+                    String oid = mqBean.getIds();
+                    TbItemDesc itemDesc = mqBean.getTbItemDesc();
+                    goodsItemDao.deleteItemById(oid);
+                    goodsItemDao.insertItem(goodBean);
+                    System.out.println("插入后的id："+goodBean.getId());
+                    goodsItemDao.updateItemId(goodBean.getId(),oid);
+                    goodsItemDao.updateItemDesc(itemDesc);
+                    freemarkerCacheUtil.delFtl("item.ftl",oid);
                     break;
             }
         } catch (Exception e) {

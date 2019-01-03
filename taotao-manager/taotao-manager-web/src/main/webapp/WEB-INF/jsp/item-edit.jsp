@@ -106,6 +106,11 @@
 					$("#itemEditWindow").window('close');
 					$("#itemList").datagrid("reload");
 				});
+			}else {
+                $.messager.alert('提示','修改商品失败!','info',function(){
+//                    $("#itemEditWindow").window('close');
+//                    $("#itemList").datagrid("reload");
+                });
 			}
 		});
 	}
