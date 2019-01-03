@@ -5,6 +5,7 @@ import demo.manager.pojo.TbItemDesc;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Repository
 public interface GoodsItemDao {
-    @Select("select * from tb_item")
+    @Select("select * from tb_item where status<>3")
     public List<TbItem> queryTbItems();
     @Select("select * from tb_item where id=#{id}")
     public TbItem queryItemDetail(long id);
@@ -27,4 +28,6 @@ public interface GoodsItemDao {
     public void insertItem(TbItem tbItem);
     @Insert("insert into tb_item_desc(item_id,item_desc,created,updated) values(#{itemId},#{itemDesc},#{created},#{updated})")
     public void insertItemDesc(TbItemDesc tbItemDesc);
+    @Update("update tb_item set status=3 where id=#{id}")
+    public void delGoodItems(String id);
 }

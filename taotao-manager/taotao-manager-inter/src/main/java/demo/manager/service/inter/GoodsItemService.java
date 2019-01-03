@@ -12,4 +12,5 @@ public interface GoodsItemService {
     public TbItem getItemDetail(long id);
     public TbItemDesc getItemDesc(long id);
     public boolean addItem(TbItem tbItem, TbItemDesc tbItemDesc);
+    public boolean deleteGoodsItems(String ids);
 }

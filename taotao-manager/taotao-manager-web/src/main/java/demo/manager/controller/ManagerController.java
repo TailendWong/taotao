@@ -2,14 +2,12 @@ package demo.manager.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import demo.common.EasyUIPageDatasBean;
-import demo.common.EasyUIPicUploadBean;
-import demo.common.EasyUITreeBean;
-import demo.common.FastDFSClientUtil;
+import demo.common.*;
 import demo.manager.pojo.TbItem;
 import demo.manager.pojo.TbItemDesc;
 import demo.manager.service.inter.CatService;
 import demo.manager.service.inter.GoodsItemService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -108,4 +106,27 @@ public class ManagerController {
         }
 
     }
+    @RequestMapping("/rest/item/delete")
+    @ResponseBody
+    public AjaxResult deleteGoodItems(String ids) {
+        AjaxResult ajaxResult = new AjaxResult();
+        if (StringUtils.isBlank(ids)) {
+            return ajaxResult;
+        }
+        System.out.println("ids = [" + ids + "]");
+        boolean b = goodsItemService.deleteGoodsItems(ids);
+        if (b) {
+            ajaxResult.setSuccess(true);
+            ajaxResult.setStatus(AjaxResult.OK);
+        }
+        return ajaxResult;
+    }
+
+    @RequestMapping("/rest/page/item-edit")
+    public String getItemDesc() {
+        return "item-edit";
+    }
+
+
+
 }

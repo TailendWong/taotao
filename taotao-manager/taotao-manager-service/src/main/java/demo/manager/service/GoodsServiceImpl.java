@@ -82,4 +82,19 @@ public class GoodsServiceImpl implements GoodsItemService {
         }
         return false;
     }
+
+    @Override
+    public boolean deleteGoodsItems(String ids) {
+        String[] strs = ids.split(",");
+        try {
+            for (String str : strs) {
+                goodsItemDao.delGoodItems(str);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
