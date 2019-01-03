@@ -77,8 +77,6 @@ public class FreemarkerCacheUtil {
         //把页面返回浏览器
         out.write(ftlContents);
         out.flush();
-
-
     }
 
 }

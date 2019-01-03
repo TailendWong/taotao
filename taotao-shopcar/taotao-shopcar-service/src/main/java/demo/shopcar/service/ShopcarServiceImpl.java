@@ -2,11 +2,13 @@ package demo.shopcar.service;
 
 import com.alibaba.fastjson.JSON;
 import demo.manager.pojo.TbItem;
+import demo.manager.service.inter.GoodsItemService;
 import demo.shopcar.dao.ShopCarDao;
 import demo.shopcar.inter.MQBean;
 import demo.shopcar.inter.ShopCarBean;
 import demo.shopcar.inter.ShopCarResult;
 import demo.shopcar.inter.ShopcarService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -27,6 +29,8 @@ import java.util.List;
 public class ShopcarServiceImpl implements ShopcarService {
     @Resource
     private ShopCarDao shopCarDao;
+    @Resource
+    private GoodsItemService goodsItemService;
     @Resource
     private DefaultMQProducer defaultMQProducer;
     @Value("${topic}")
@@ -58,7 +62,27 @@ public class ShopcarServiceImpl implements ShopcarService {
     }
 
     @Override
+    public void delShopCarItem(Long itemid) {
+        shopCarDao.delShopCarItem(getTbitemById(itemid));
+    }
+
+    @Override
+    public TbItem getTbitemById(Long itemid) {
+        TbItem itemDetail = goodsItemService.getItemDetail(itemid);
+        return itemDetail;
+    }
+
+    @Override
+    public void editShopcarItemNum(Long itemid, Integer num) {
+        shopCarDao.updateShopcarItemNum(getTbitemById(itemid),num);
+    }
+
+
+    @Override
     public ShopCarResult showShopCarItems(int page, int rows, String userid) {
+        if (StringUtils.isBlank(userid)) {
+            return null;
+        }
         Long totalPrice = shopCarDao.queryTotalPrice(userid);
         int start=(page-1)*rows;
         int end=page*rows-1;

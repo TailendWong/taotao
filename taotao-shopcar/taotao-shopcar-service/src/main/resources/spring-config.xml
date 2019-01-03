@@ -28,6 +28,7 @@
     <!--使用 dubbo 协议实现定义好的 api.PermissionService 接口-->
     <dubbo:service interface="demo.shopcar.inter.ShopcarService" ref="shopcarServiceImpl" protocol="dubbo" />
 
+    <dubbo:reference  id="goodsItemService" interface="demo.manager.service.inter.GoodsItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>
 
 
     <bean id="shopcarConsumer" class="demo.shopcar.consumer.ShopcarConsumer"></bean>

@@ -37,4 +37,17 @@ public class ShopCarController {
         return "cart";
     }
 
+    @RequestMapping("/cart/delete/{tbItemid}")
+    public String deleteCartItem(@PathVariable("tbItemid") Long tbitemid){
+        System.out.println("tbitemid = [" + tbitemid + "]");
+        shopcarService.delShopCarItem(tbitemid);
+            return "forward:/cart/cart.html";
+    }
+
+    @RequestMapping("/cart/update/num/{itemId}/{num}")
+    public String updateCartItem(@PathVariable("num") Integer num,@PathVariable("itemId") Long itemId ) {
+        System.out.println("num = [" + num + "], itemId = [" + itemId + "]");
+        shopcarService.editShopcarItemNum(itemId,num);
+        return "forward:/cart/cart.html";
+    }
 }
