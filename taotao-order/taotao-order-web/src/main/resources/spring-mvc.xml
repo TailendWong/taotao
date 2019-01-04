@@ -45,6 +45,7 @@
 
     <dubbo:reference  id="goodsItemService" interface="demo.manager.service.inter.GoodsItemService" protocol="dubbo" timeout="5000" ></dubbo:reference>
     <dubbo:reference id="shopcarService" interface="demo.shopcar.inter.ShopcarService" protocol="dubbo" timeout="5000" ></dubbo:reference>
+    <dubbo:reference id="orderService" interface="demo.order.inter.OrderService" protocol="dubbo" timeout="5000" ></dubbo:reference>
 
 
 </beans>

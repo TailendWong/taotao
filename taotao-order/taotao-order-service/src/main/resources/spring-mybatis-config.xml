@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--配置c3p0数据源连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driver}"></property>
+        <property name="jdbcUrl" value="${url}"></property>
+        <property name="user" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="initialPoolSize" value="${initialPoolSize}"></property>
+        <property name="maxPoolSize" value="${maxPoolSize}"></property>
+        <property name="minPoolSize" value="${minPoolSize}"></property>
+        <property name="maxIdleTime" value="${maxIdleTime}"></property>
+    </bean>
+
+    <!--配置mybatis的sqlsessionfactory-->
+    <bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指明数据源连接池的引用-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--指明mybatis的主配置文件的位置-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <!--别名设置-->
+        <property name="typeAliasesPackage" value="demo.manager.pojo"></property>
+
+    </bean>
+    <!--设置我们扫描mapper的包-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+        <property name="basePackage" value="demo.order.dao"></property>
+    </bean>
+
+
+    <!--事务管理者-->
+    <bean id="id_txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--让事务切面可以通过注解配置-->
+    <tx:annotation-driven transaction-manager="id_txManager"></tx:annotation-driven>
+
+</beans>

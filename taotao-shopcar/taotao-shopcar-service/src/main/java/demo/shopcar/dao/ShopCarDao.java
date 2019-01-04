@@ -92,6 +92,9 @@ public class ShopCarDao {
         String hsKey=KEY_SHOPCAR_HASH+"dahuang1";
         Object oNum = hashOperations.get(hsKey, tbItem.getId());
         hashOperations.delete(hsKey,tbItem.getId());
+        if (oNum == null) {
+            return;
+        }
         //存总价格
         String tpKey=KEY_SHOPCAR_TP+"dahuang1";
         ValueOperations valueOperations = redisTemplate.opsForValue();

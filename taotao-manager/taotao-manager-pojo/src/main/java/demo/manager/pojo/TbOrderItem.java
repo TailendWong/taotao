@@ -1,7 +1,9 @@
 package demo.manager.pojo;
 
-public class TbOrderItem {
-    private String id;
+import java.io.Serializable;
+
+public class TbOrderItem implements Serializable{
+    private Long id;
 
     private String itemId;
 
@@ -17,12 +19,12 @@ public class TbOrderItem {
 
     private String picPath;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getItemId() {

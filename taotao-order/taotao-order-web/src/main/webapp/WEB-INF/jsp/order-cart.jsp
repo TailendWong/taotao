@@ -28,11 +28,11 @@
     <div id="logo"><a href="/"><img src="/images/taotao-logo.gif" alt="淘淘商城"></a></div>
 </div>
 
-<form id="orderForm" class="hide" action="http://taotao.3w.dkys.org/payOrder.html" method="post">
+<form id="orderForm" class="hide" action="/order/create.html" method="post">
 		<input type="hidden" name="paymentType" value="1"/>
-		<c:forEach items="${cartList }" var="cart" varStatus="status">
+		<c:forEach items="${cartList}" var="cart" varStatus="status">
 			<%--<c:set var="totalPrice"  value="${ totalPrice + (cart.price * cart.num)}"/>--%>
-			<input type="hidden" name="orderItems[${status.index}].id" value="${cart.tbItem.id}"/>
+			<input type="hidden" name="orderItems[${status.index}].itemId" value="${cart.tbItem.id}"/>
 			<input type="hidden" name="orderItems[${status.index}].num" value="${cart.tbItem.num }"/>
 			<input type="hidden" name="orderItems[${status.index}].price" value="${cart.tbItem.price}"/>
 			<input type="hidden" name="orderItems[${status.index}].totalFee" value="${cart.tbItem.price * cart.num}"/>

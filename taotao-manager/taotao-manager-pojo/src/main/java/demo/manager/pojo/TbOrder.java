@@ -1,8 +1,9 @@
 package demo.manager.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbOrder {
+public class TbOrder implements Serializable{
     private String orderId;
 
     private String payment;
@@ -29,7 +30,7 @@ public class TbOrder {
 
     private String shippingCode;
 
-    private Long userId;
+    private String userId;
 
     private String buyerMessage;
 
@@ -141,11 +142,11 @@ public class TbOrder {
         this.shippingCode = shippingCode == null ? null : shippingCode.trim();
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

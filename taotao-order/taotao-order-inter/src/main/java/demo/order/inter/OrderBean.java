@@ -2,22 +2,25 @@ package demo.order.inter;
 
 import demo.manager.pojo.TbItem;
 import demo.manager.pojo.TbOrder;
+import demo.manager.pojo.TbOrderItem;
 import demo.manager.pojo.TbOrderShipping;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by 黄敏雅 on 2018/12/25 0025.
  */
-public class OrderBean extends TbOrder{
-    private List<TbItem> orderItems;
+public class OrderBean extends TbOrder implements Serializable{
+    private List<TbOrderItem> orderItems;
     private TbOrderShipping orderShipping;
 
-    public List<TbItem> getOrderItems() {
+
+    public List<TbOrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<TbItem> orderItems) {
+    public void setOrderItems(List<TbOrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
